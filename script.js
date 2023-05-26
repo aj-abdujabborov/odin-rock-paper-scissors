@@ -5,7 +5,7 @@ let computerScore;
 let playerScore;
 
 // Play
-playGame();
+// playGame();
 
 function playGame() {
     computerScore = 0;

@@ -6,8 +6,69 @@
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="styles.css">
     <script src="script.js"></script>
-
 </head>
 <body>
+    <div class="header">
+        <a href="./index.html" class="home-button">
+            <img class="logo" src="./imgs/logo.jpeg" alt="a logo for the game, containing scissors a rock and a piece of paper">
+        </a>
+        <a href="./index.html" class="home-button">
+            <div class="page-title text">ROCK. PAPER. SCISSORS.<div class="underline"></div></div>
+        </a>
+    </div>
+
+    <div class="game-section">
+        <div class="player-column human">
+            <div class="stars-section">
+                <img src="./imgs/star.svg" alt="red star">
+                <img src="./imgs/star.svg" alt="red star">
+                <img src="./imgs/star.svg" alt="red star">
+            </div>
+            <div class="player-image-current-move-container">
+                <div class="player-image-container">
+                    <img class="human" src="./imgs/playerHuman.jpeg" alt="an angry man facing toward the right">
+                </div>
+                <div class="current-choice tool-container">
+                    <img src="./imgs/ppaer.jpeg" alt="">
+                </div>
+            </div>
+            <div class="tool-choices">
+                <div class="tool-container rock">
+                    <img src="./imgs/rock.jpeg" alt="rock">
+                </div>
+                <div class="tool-container paper">
+                    <img src="./imgs/ppaer.jpeg" alt="paper">
+                </div>
+                <div class="tool-container scissors">
+                    <img src="./imgs/scissors.jpeg" alt="scissors">
+                </div>
+            </div>
+        </div>
+
+        <div class="player-column computer">
+            <div class="stars-section">
+                <img src="./imgs/star.svg" alt="red star">
+                <img src="./imgs/star.svg" alt="red star">
+                <img src="./imgs/star.svg" alt="red star">
+            </div>
+            <div class="player-image-current-move-container">
+                <div class="player-image-container">
+                    <img class="computer" src="./imgs/playerComputer.jpeg" alt="a computer facing the left">
+                </div>
+                <div class="current-choice tool-container">
+                    <img src="./imgs/ppaer.jpeg" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>
+            Images generated with Bing Image Creator.
+        </p>
+        <p>
+            For The Odin Project.
+        </p>
+    </div>
 </body>
 </html>
