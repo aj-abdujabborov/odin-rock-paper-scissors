@@ -4,6 +4,8 @@ const winScore = 3;
 let computerScore;
 let playerScore;
 
+showScore(0, "human");
+
 // Play
 // playGame();
 
@@ -94,4 +96,25 @@ function updateScore(winner) {
     else if (winner == "computer") {
         ++computerScore;
     }
+}
+
+function showScore(score, player) {
+    if (player !== "human" && player !== "computer") {
+        console.log("Misspelled player name.");
+        return;
+    }
+
+    for (let i = 1; i <= winScore; i++) {
+        let star = document.querySelector(`.star-${i}-${player}`);
+        if (i <= score) {
+            star.style.visibility = 'visible';
+        }
+        else {
+            star.style.visibility = 'hidden';
+        }
+    }
+}
+
+function showMove(tool, player) {
+    
 }
