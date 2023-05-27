@@ -8,27 +8,24 @@ const toolImgs = {
 }
 const winScore = 3;
 const numTools = 3;
-let computerScore;
-let playerScore;
+const playerScores = {
+    human: 0,
+    computer: 0
+}
 
 // Setup
 makeCallbackFunctions();
-
-// Play
-// playGame();
+setEventListeners(true);
 
 function playGame() {
-    computerScore = 0;
-    playerScore = 0;
-
     let gameFinished = false;
     while (!gameFinished) {
         playRound();
-        if (computerScore === winScore) {
+        if (playerScores.computer === winScore) {
             alert(`The computer won! :(. Will reset game.`);
             gameFinished = true;
         }
-        else if (playerScore === winScore) {
+        else if (playerScores.human === winScore) {
             alert('You won!. Will reset game.');
             gameFinished = true;
         }
@@ -38,10 +35,21 @@ function playGame() {
 }
 
 function playRound(playerSelection) {
+    showMove(playerSelection, "human");
     const computerSelection = getComputerChoice();
+    showMove(computerSelection, "computer");
+
     const winner = getWinnerOfRound(playerSelection, computerSelection);
-    updateScore(winner);
-    sendWinAlert(winner, playerSelection, computerSelection);
+    if (winner !== "tie") {
+        showScore(++playerScores[winner], winner); // incrementing first
+    }
+
+    if (Math.max(playerScores.human, playerScores.computer) === winScore) {
+        playerScores.human = 0;
+        playerScores.computer = 0;
+        showScore(playerScores.human, "human");
+        showScore(playerScores.computer, "computer");
+    }
 }
 
 function getComputerChoice() {
@@ -59,7 +67,7 @@ function getWinnerOfRound(playerSelection, computerSelection) {
     const winList = ["paper-rock", "scissors-paper", "rock-scissors"];
     for (const winCombo of winList) {
         if (combo === winCombo) {
-            return "player";
+            return "human";
         }
     }
     return "computer";
@@ -67,7 +75,7 @@ function getWinnerOfRound(playerSelection, computerSelection) {
 
 function makeCallbackFunctions() {
     for (let i = 0; i < numTools; i++) {
-        callbacks[i] = () => {console.log(tools[i]);};
+        callbacks[i] = () => {playRound(tools[i]);};
     }
 }
 
@@ -83,35 +91,7 @@ function setEventListeners(state) {
     }
 }
 
-function sendWinAlert(winner, playerSelection, computerSelection) {
-    let outcome = "";
-    let playerPrefix = computerPrefix = '';
-    if (winner === "player") {
-        playerPrefix += '+';
-    }
-    else if (winner === "computer") {
-        computerPrefix += '+';
-    }
-
-    outcome += `${playerSelection} against ${computerSelection}\n`;
-    outcome += `${playerPrefix}You: ${playerScore}. ${computerPrefix}Computer: ${computerScore}`;
-    alert(outcome);
-}
-
-function updateScore(winner) {
-    if (winner == "player") {
-        ++playerScore;
-    }
-    else if (winner == "computer") {
-        ++computerScore;
-    }
-}
-
 function showScore(score, player) {
-    if (parsePlayer(player) == undefined) {
-        return;
-    }
-
     for (let i = 1; i <= winScore; i++) {
         let star = document.querySelector(`.star-${i}-${player}`);
         if (i <= score) {
@@ -124,21 +104,9 @@ function showScore(score, player) {
 }
 
 function showMove(tool, player) {
-    if (parsePlayer(player) == undefined) {
-        return;
-    }
-
     const currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
     currentMoveImg.src = toolImgs[tool];
     const currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
     currentMove.style.visibility = "visible";
-    setTimeout((move) => {move.style.visibility = "hidden";}, 4*1000, currentMove);
-}
-
-function parsePlayer(player) {
-    if (player !== "human" && player !== "computer") {
-        console.log("Misspelled player name.");
-        return undefined;
-    }
-    return player;
+    setTimeout((move) => {move.style.visibility = "hidden";}, 3*1000, currentMove);
 }

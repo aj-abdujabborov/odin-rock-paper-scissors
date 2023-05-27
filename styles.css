@@ -83,6 +83,7 @@ body {
     width: 6vw;
     aspect-ratio: 1;
     color: red;
+    visibility: hidden;
 }
 
 /* Player image and current move */
