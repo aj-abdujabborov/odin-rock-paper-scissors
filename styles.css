@@ -102,6 +102,10 @@ body {
     margin-right: 40vw;
 }
 
+.current-choice.tool-container {
+    visibility: hidden;
+}
+
 .player-image-container {
     display: flex;
     justify-content: center;
@@ -168,13 +172,6 @@ body {
     z-index: 1;
 }
 
-.tool-container.rock > img {
-    width: 10vw;
-}
-
-.tool-container.scissors > img {
-    width: 8vw;
-}
 
 /* FOOTER */
 .footer {

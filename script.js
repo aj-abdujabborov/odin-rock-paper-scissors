@@ -1,10 +1,16 @@
 // Global variables
 const moves = ["rock", "paper", "scissors"];
+const moveImgs = {
+    rock: "./imgs/rock.jpeg",
+    paper: "./imgs/paper.jpeg",
+    scissors: "./imgs/scissors.jpeg"
+}
 const winScore = 3;
 let computerScore;
 let playerScore;
 
-showScore(0, "human");
+
+
 
 // Play
 // playGame();
@@ -99,8 +105,7 @@ function updateScore(winner) {
 }
 
 function showScore(score, player) {
-    if (player !== "human" && player !== "computer") {
-        console.log("Misspelled player name.");
+    if (parsePlayer(player) == undefined) {
         return;
     }
 
@@ -116,5 +121,21 @@ function showScore(score, player) {
 }
 
 function showMove(tool, player) {
-    
+    if (parsePlayer(player) == undefined) {
+        return;
+    }
+
+    const currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
+    currentMoveImg.src = moveImgs[tool];
+    const currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
+    currentMove.style.visibility = "visible";
+    setTimeout((move) => {move.style.visibility = "hidden";}, 4*1000, currentMove);
+}
+
+function parsePlayer(player) {
+    if (player !== "human" && player !== "computer") {
+        console.log("Misspelled player name.");
+        return undefined;
+    }
+    return player;
 }
