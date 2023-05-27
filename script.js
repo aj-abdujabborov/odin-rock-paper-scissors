@@ -12,44 +12,63 @@ const playerScores = {
     human: 0,
     computer: 0
 }
+const winToolShadow = "0 0 30px 8px rgba(255, 255, 255, 0.5)";
+const winPlayerShadow = "0 0 100px 50px rgba(255, 255, 255, 0.4)";
+
+// Timing (t=0 when human gives input)
+const times = {
+    human: {
+        showToolDelay: 0
+    },
+    computer: {
+        showToolDelay: 0.5 * 1000
+    },
+    showToolWinner: 0.8 * 1000,
+    updateStars: 1 * 1000, // how long before winning star is shown
+    hideToolDelay: 2 * 1000, // how long before player can input again
+    gameRestartTime: 5 * 1000
+}
 
 // Setup
 makeCallbackFunctions();
-setEventListeners(true);
-
-function playGame() {
-    let gameFinished = false;
-    while (!gameFinished) {
-        playRound();
-        if (playerScores.computer === winScore) {
-            alert(`The computer won! :(. Will reset game.`);
-            gameFinished = true;
-        }
-        else if (playerScores.human === winScore) {
-            alert('You won!. Will reset game.');
-            gameFinished = true;
-        }
-    }
-
-    playGame();
-}
+setAcceptInputs(true);
 
 function playRound(playerSelection) {
-    showMove(playerSelection, "human");
+    setAcceptInputs(false);
     const computerSelection = getComputerChoice();
-    showMove(computerSelection, "computer");
-
     const winner = getWinnerOfRound(playerSelection, computerSelection);
     if (winner !== "tie") {
-        showScore(++playerScores[winner], winner); // incrementing first
+        ++playerScores[winner];
+        setTimeout(() => {showScore(playerScores[winner], winner)}, times.updateStars);
     }
+    showMove(playerSelection, computerSelection, winner);
 
-    if (Math.max(playerScores.human, playerScores.computer) === winScore) {
+    if (!isGameOver()) {
+        setTimeout(() => {setAcceptInputs(true)}, times.hideToolDelay);
+    }
+    else {
+        handleGameOver();
+    }
+}
+
+function handleGameOver() {
+    const winPlayer = playerScores.human > playerScores.computer ? "human" : "computer";
+    const winPlayerVis = document.querySelector(`.player-column.${winPlayer} .player-image-container`);
+    const defaultPlayerShadow = winPlayerVis.style.boxShadow;
+    
+    setTimeout(() => {winPlayerVis.style.boxShadow = winPlayerShadow;}, times.updateStars);
+    setTimeout(() => {
+        winPlayerVis.style.boxShadow = defaultPlayerShadow;
         playerScores.human = 0;
         playerScores.computer = 0;
         showScore(playerScores.human, "human");
         showScore(playerScores.computer, "computer");
-    }
+        setAcceptInputs(true);
+    }, times.gameRestartTime);
+}
+
+function isGameOver() {
+    return Math.max(playerScores.human, playerScores.computer) === winScore;
 }
 
 function getComputerChoice() {
@@ -79,7 +98,7 @@ function makeCallbackFunctions() {
     }
 }
 
-function setEventListeners(state) {
+function setAcceptInputs(state) {
     for (let i = 0; i < numTools; i++) {
         let target = document.querySelector(`.tool-choices > .tool-container.${tools[i]}`);
         if (state === true) {
@@ -95,18 +114,38 @@ function showScore(score, player) {
     for (let i = 1; i <= winScore; i++) {
         let star = document.querySelector(`.star-${i}-${player}`);
         if (i <= score) {
-            star.style.visibility = 'visible';
+            star.src = "./imgs/starFilled.svg";
         }
         else {
-            star.style.visibility = 'hidden';
+            star.src = "./imgs/starEmpty.svg";
         }
     }
 }
 
-function showMove(tool, player) {
-    const currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
-    currentMoveImg.src = toolImgs[tool];
-    const currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
-    currentMove.style.visibility = "visible";
-    setTimeout((move) => {move.style.visibility = "hidden";}, 3*1000, currentMove);
+function showMove(humanTool, computerTool, winner) {
+    const players = ["human", "computer"];
+    const tools = {
+        human: humanTool,
+        computer: computerTool
+    }
+
+    for (const player of players) {
+        // Choose correct tool
+        let currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
+        currentMoveImg.src = toolImgs[tools[player]];
+
+        // Show
+        let currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
+        let defaultShadow = currentMove.style.boxShadow;
+        setTimeout(() => {currentMove.style.visibility = "visible";}, times[player].showToolDelay);
+
+        // Hide again
+        setTimeout(() => {currentMove.style.visibility = "hidden";}, times.hideToolDelay);
+
+        // Show and hide victory shadow
+        if (player === winner) {
+            setTimeout(() => {currentMove.style.boxShadow = winToolShadow;}, times.showToolWinner);
+            setTimeout(() => {currentMove.style.boxShadow = defaultShadow;}, times.hideToolDelay);
+        }
+    }
 }
