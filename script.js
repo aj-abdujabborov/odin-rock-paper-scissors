@@ -1,16 +1,18 @@
 // Global variables
-const moves = ["rock", "paper", "scissors"];
-const moveImgs = {
+const tools = ["rock", "paper", "scissors"];
+const callbacks = [null, null, null];
+const toolImgs = {
     rock: "./imgs/rock.jpeg",
     paper: "./imgs/paper.jpeg",
     scissors: "./imgs/scissors.jpeg"
 }
 const winScore = 3;
+const numTools = 3;
 let computerScore;
 let playerScore;
 
-
-
+// Setup
+makeCallbackFunctions();
 
 // Play
 // playGame();
@@ -35,8 +37,7 @@ function playGame() {
     playGame();
 }
 
-function playRound() {
-    const playerSelection = getUserChoice();
+function playRound(playerSelection) {
     const computerSelection = getComputerChoice();
     const winner = getWinnerOfRound(playerSelection, computerSelection);
     updateScore(winner);
@@ -51,13 +52,9 @@ function getComputerChoice() {
 
 function getWinnerOfRound(playerSelection, computerSelection) {
     // Tie?
-    if (playerSelection === computerSelection) {
-        return "tie";
-    }
-
+    if (playerSelection === computerSelection) { return "tie"; }
     // Move combo
     const combo = (playerSelection + "-" + computerSelection).toLowerCase();
-
     // Find winner
     const winList = ["paper-rock", "scissors-paper", "rock-scissors"];
     for (const winCombo of winList) {
@@ -68,17 +65,23 @@ function getWinnerOfRound(playerSelection, computerSelection) {
     return "computer";
 }
 
-function getUserChoice() {
-    let choice = prompt("Enter your choice").toLowerCase();
-    for (const move of moves) {
-        if (choice === move) {
-            return choice;
-        }
+function makeCallbackFunctions() {
+    for (let i = 0; i < numTools; i++) {
+        callbacks[i] = () => {console.log(tools[i]);};
     }
-    alert(`${choice} is an invalid move.\nChoose between "rock", "paper", and "scissors".`);
-    getUserChoice();
 }
 
+function setEventListeners(state) {
+    for (let i = 0; i < numTools; i++) {
+        let target = document.querySelector(`.tool-choices > .tool-container.${tools[i]}`);
+        if (state === true) {
+            target.addEventListener("click", callbacks[i], false);
+        }
+        else {
+            target.removeEventListener("click", callbacks[i], false);
+        }
+    }
+}
 
 function sendWinAlert(winner, playerSelection, computerSelection) {
     let outcome = "";
@@ -126,7 +129,7 @@ function showMove(tool, player) {
     }
 
     const currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
-    currentMoveImg.src = moveImgs[tool];
+    currentMoveImg.src = toolImgs[tool];
     const currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
     currentMove.style.visibility = "visible";
     setTimeout((move) => {move.style.visibility = "hidden";}, 4*1000, currentMove);
