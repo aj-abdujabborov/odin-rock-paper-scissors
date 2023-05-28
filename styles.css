@@ -143,13 +143,13 @@ img {
     box-shadow: 0 10px 30px 8px rgba(255, 0, 0, 0.2);
 }
 
-.tool-container:hover {
+:not(.choice).tool-container:hover {
     /* box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
     box-shadow: 0 0 30px 4px rgba(255, 255, 255, 0.2);
     cursor: pointer;
 }
 
-.tool-container:active {
+:not(.choice).tool-container:active {
     box-shadow: 0 0 30px 4px rgba(255, 255, 255, 0.3);
 }
 
