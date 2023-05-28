@@ -14,9 +14,7 @@ const playerScores = {
 }
 const winToolShadow = "0 0 30px 8px rgba(255, 255, 255, 0.5)";
 const winPlayerShadow = "0 0 100px 50px rgba(255, 255, 255, 0.4)";
-
-// Timing (t=0 when human gives input)
-const times = {
+const times = { // timing (t=0 when human gives input)
     human: {
         showToolDelay: 0
     },
@@ -53,7 +51,7 @@ function playRound(playerSelection) {
 
 function handleGameOver() {
     const winPlayer = playerScores.human > playerScores.computer ? "human" : "computer";
-    const winPlayerVis = document.querySelector(`.player-column.${winPlayer} .player-image-container`);
+    const winPlayerVis = document.querySelector(`.player.${winPlayer} .profile-container`);
     const defaultPlayerShadow = winPlayerVis.style.boxShadow;
     
     setTimeout(() => {winPlayerVis.style.boxShadow = winPlayerShadow;}, times.updateStars);
@@ -100,7 +98,7 @@ function makeCallbackFunctions() {
 
 function setAcceptInputs(state) {
     for (let i = 0; i < numTools; i++) {
-        let target = document.querySelector(`.tool-choices > .tool-container.${tools[i]}`);
+        let target = document.querySelector(`.tools-container > .tool-container.${tools[i]}`);
         if (state === true) {
             target.addEventListener("click", callbacks[i], false);
         }
@@ -131,11 +129,11 @@ function showMove(humanTool, computerTool, winner) {
 
     for (const player of players) {
         // Choose correct tool
-        let currentMoveImg = document.querySelector(`.player-column.${player} .current-choice.tool-container > img`);
+        let currentMoveImg = document.querySelector(`.player.${player} .choice > img`);
         currentMoveImg.src = toolImgs[tools[player]];
 
         // Show
-        let currentMove = document.querySelector(`.player-column.${player} .current-choice.tool-container`);
+        let currentMove = document.querySelector(`.player.${player} .choice`);
         let defaultShadow = currentMove.style.boxShadow;
         setTimeout(() => {currentMove.style.visibility = "visible";}, times[player].showToolDelay);
 

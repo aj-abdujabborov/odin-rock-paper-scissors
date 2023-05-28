@@ -17,11 +17,32 @@ body {
     min-height: 100vh;
 }
 
+.text {
+    color: red;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    z-index: 0;
+    position: relative;
+}
+
+img {
+    aspect-ratio: 1;
+    z-index: 1;
+}
+
 /* HEADER */
 .header {
     display: flex;
     justify-content: center;
     align-items: center;
+
     gap: 24px;
     max-height: 120px;
     margin: 3vh 0;
@@ -34,13 +55,9 @@ body {
     border: 2px solid red;
 }
 
-.page-title {
-    color: red;
+.title {
     font-size: 96px;
     font-family: "Strengthen";
-    display: flex;
-    flex-direction: column;
-
     /* box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
     text-shadow: 7px 7px 5px rgba(255,0,0,0.2);
 }
@@ -51,21 +68,14 @@ body {
     width: inherit;
 }
 
-.home-button {
-    display: flex;
-}
-
 /* GAME-SECTION */
-.game-section {
+.game {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
-    margin: 5vh 0;
 }
 
-/* Player section */
-.player-column {
+.player {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -75,71 +85,53 @@ body {
 }
 
 /* Stars */
-.stars-section {
+.stars-container {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
 }
 
-.stars-section > img {
+.stars-container > img {
     width: 6vw;
-    aspect-ratio: 1;
 }
 
-/* Player image and current move */
-.player-image-current-move-container {
+.profile-and-choice-container {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.player-column.human .tool-container.current-choice {
-    position: absolute;
-    margin-left: 42.5vw;
-}
-
-.player-column.computer .tool-container.current-choice {
-    position: absolute;
-    margin-right: 42.5vw;
-}
-
-.current-choice.tool-container {
-    visibility: hidden;
-}
-
-.player-image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-
-    border-radius: 50%;
+.profile-container {    
     border: 4px solid rgba(255, 0, 0, 0.8);
     width: 30vw;
-    aspect-ratio: 1;
-    z-index: 0;
-    position: relative;
-
     /* box-shadow: offset-x | offset-y | blur-radius | spread-radius | color */
     box-shadow: 0 15px 50px 10px rgba(255, 0, 0, 0.15);
 }
 
-.player-image-container > img {
-    aspect-ratio: 1;
-    z-index: 1;
-}
-
-.player-image-container > img.human {
+.player.human .profile-container > img {
     width: 38vw;
 }
 
-.player-image-container > img.computer {
+.player.computer .profile-container > img {
     width: 31vw;
 }
 
+.player.human .choice {
+    margin-left: 42.5vw;
+}
+
+.player.computer .choice {
+    margin-right: 42.5vw;
+}
+
+.choice {
+    visibility: hidden;
+    position: absolute;
+}
+
 /* Tools */
-.tool-choices {
+.tools-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -147,18 +139,7 @@ body {
 }
 
 .tool-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-
-    border-radius: 50%;
     width: 10vw;
-    aspect-ratio: 1;
-
-    z-index: 0;
-    position: relative;
-
     box-shadow: 0 10px 30px 8px rgba(255, 0, 0, 0.2);
 }
 
@@ -174,11 +155,7 @@ body {
 
 .tool-container > img {
     width: 10vw;
-    aspect-ratio: 1;
-
-    z-index: 1;
 }
-
 
 /* FOOTER */
 .footer {
@@ -186,7 +163,6 @@ body {
     justify-content: space-between;
     align-items: flex-end;
     
-    color: red;
     font-family: sans-serif;
     font-size: 18px;
 
