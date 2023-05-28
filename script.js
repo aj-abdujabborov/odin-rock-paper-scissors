@@ -77,21 +77,6 @@ function playRound(playerSelection) {
     }
 }
 
-function showWinnerPlayer(profile) {
-    setTimeout(() => {profile.style.boxShadow = winPlayerShadow;}, msAfterChoice.winPlayerHighlight);
-    setTimeout(() => {profile.style.boxShadow = defaultPlayerShadow;}, msAfterChoice.gameOverRestart);
-}
-
-function resetScores() {
-    setTimeout(
-        () => {
-            playerScores.human = playerScores.computer = 0;
-            updateStars(0, "human"); 
-            updateStars(0, "computer");}, 
-        msAfterChoice.gameOverRestart
-        );
-}
-
 function updateStars(score, player) {
     for (let i = 1; i <= winScore; i++) {
         let star = document.querySelector(`.star-${i}-${player}`);
@@ -119,6 +104,21 @@ function showMove(humanTool, computerTool, winner) {
             setTimeout(() => {choice.style.boxShadow = defaultToolShadow;}, msAfterChoice.choiceHidden);
         }
     }
+}
+
+function showWinnerPlayer(profile) {
+    setTimeout(() => {profile.style.boxShadow = winPlayerShadow;}, msAfterChoice.winPlayerHighlight);
+    setTimeout(() => {profile.style.boxShadow = defaultPlayerShadow;}, msAfterChoice.gameOverRestart);
+}
+
+function resetScores() {
+    setTimeout(
+        () => {
+            playerScores.human = playerScores.computer = 0;
+            updateStars(0, "human"); 
+            updateStars(0, "computer");}, 
+        msAfterChoice.gameOverRestart
+        );
 }
 
 function getComputerChoice() {
