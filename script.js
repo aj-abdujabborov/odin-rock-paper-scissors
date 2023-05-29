@@ -70,10 +70,11 @@ function playRound(playerSelection) {
         setTimeout(() => {setAcceptInputs(true)}, msAfterChoice.nextRound);
     }
     else {
+        setTimeout(() => {setAcceptInputs(true);}, msAfterChoice.gameOverRestart);
+
         const profile = document.querySelector(`.player.${winner} .profile-container`);
         showWinnerPlayer(profile);
         resetScores();
-        setTimeout(() => {setAcceptInputs(true);}, msAfterChoice.gameOverRestart);
     }
 }
 
@@ -125,11 +126,11 @@ function getComputerChoice() {
     return tools[Math.floor(Math.random() * numTools)];
 }
 
-function getWinnerOfRound(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection) { return "tie"; }
+function getWinnerOfRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) { return "tie"; }
     
     const humanWinCases = ["paper-rock", "scissors-paper", "rock-scissors"];
-    const currentCase = (playerSelection + "-" + computerSelection);
+    const currentCase = (humanChoice + "-" + computerChoice);
     for (const humanWinCase of humanWinCases) {
         if (currentCase === humanWinCase) {
             return "human";
