@@ -14,6 +14,7 @@ const playerScores = {
     human: 0,
     computer: 0
 }
+const stars = {human: [], computer: []};
 
 const defaultToolShadow = document.querySelector(`.tool-container`).style.boxShadow;
 const winChoiceShadow = "0 0 30px 8px rgba(255, 255, 255, 0.5)";
@@ -36,6 +37,7 @@ const msAfterChoice = {
 }
 
 makeToolClickCallbackFunctions();
+makeStars();
 setAcceptInputs(true);
 
 function makeToolClickCallbackFunctions() {
@@ -78,14 +80,28 @@ function playRound(playerSelection) {
     }
 }
 
+function makeStars() {
+    for (const player of players) {
+        let starsContainer = document.querySelector(`.${player}.player > .stars-container`);
+        for (let i = 0; i < winScore; i++) {
+            const star = document.createElement("img");
+            starsContainer.appendChild(star);
+            stars[player].push(star);
+        }
+        updateStars(0, player);
+    }
+}
+
 function updateStars(score, player) {
-    for (let i = 1; i <= winScore; i++) {
-        let star = document.querySelector(`.star-${i}-${player}`);
-        if (i <= score) {
+    for (let i = 0; i < winScore; i++) {
+        const star = stars[player][i];
+        if (i < score) {
             star.src = "./imgs/starFilled.svg";
+            star.alt = "red star";
         }
         else {
             star.src = "./imgs/starEmpty.svg";
+            star.alt = "gray star";
         }
     }
 }
